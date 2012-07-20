@@ -16,6 +16,9 @@ set smartindent     "Automatically inserts indentation in some cases
 "set cindent         "Like smartindent, but stricter and more customisable
 set smarttab
 
+set ignorecase
+set smartcase
+
 set showmatch
 set incsearch
 set iskeyword-=_    "Treat _ as a word boundary
