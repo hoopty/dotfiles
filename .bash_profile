@@ -8,7 +8,7 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=1000
 export HISTFILESIZE=1000
 shopt -s histappend
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
 export CLICOLOR=1
