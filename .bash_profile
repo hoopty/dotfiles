@@ -90,8 +90,9 @@ elif [ "$OS" = "FreeBSD" ]; then
     function msglog () { tail $@ /var/log/messages; }
     function wwwlog () { tail $@ /var/log/httpd-access-`date '+%Y-%m'`.log; }
     function wwwerrlog () { tail $@ /var/log/httpd-error-`date '+%Y-%m'`.log; }
-    alias systat='systat -vm 1'
     alias gstat='sudo gstat -f da\.$'
+    alias iotop='top -m io -o total'
+    alias systat='systat -vm 1'
 
 elif [ "$OS" = "Darwin" ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
