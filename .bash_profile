@@ -4,11 +4,11 @@ which vimpager >/dev/null &&    export PAGER='vimpager'
 which less >/dev/null &&        export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
-export HISTCONTROL=ignoreboth:erasedups
-export HISTSIZE=1000
-export HISTFILESIZE=1000
 shopt -s histappend
-export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+export HISTCONTROL=ignoreboth
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
 export CLICOLOR=1
@@ -60,6 +60,7 @@ CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
 which colordiff >/dev/null && alias diff='colordiff'
 alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
+alias hn='historyi -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'

@@ -23,6 +23,9 @@ set showmatch
 set incsearch
 set iskeyword-=_    "Treat _ as a word boundary
 
+" vimpager specific
+let vimpager_passthrough = 1
+
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 " Show trailing whitespace:
 match ExtraWhitespace /\s\+$/
