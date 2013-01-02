@@ -3,3 +3,5 @@
     email = bryce@bryce.net
 [color]
     ui = true
+[push]
+    default = simple
