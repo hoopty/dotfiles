@@ -8,7 +8,7 @@ shopt -s histappend
 export HISTCONTROL=ignoreboth
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export HISTTIMEFORMAT="%b/%d - %T " 
+export HISTTIMEFORMAT="%b/%d %T " 
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
