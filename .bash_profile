@@ -6,8 +6,9 @@ which less >/dev/null &&        export MANPAGER='less'
 
 shopt -s histappend
 export HISTCONTROL=ignoreboth
-export HISTSIZE=5000
-export HISTFILESIZE=5000
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export HISTTIMEFORMAT="%b/%d - %T " 
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
@@ -60,7 +61,7 @@ CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
 which colordiff >/dev/null && alias diff='colordiff'
 alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
-alias hn='historyi -n'
+alias hn='history -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
