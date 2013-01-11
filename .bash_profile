@@ -5,10 +5,10 @@ which less >/dev/null &&        export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
 shopt -s histappend
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=10000
 export HISTFILESIZE=10000
-export HISTTIMEFORMAT="%b/%d %T " 
+#export HISTTIMEFORMAT="%b/%d %T "
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
