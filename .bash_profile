@@ -1,7 +1,7 @@
 export PATH=$PATH:$HOME/bin
-which vim >/dev/null &&         export EDITOR='vim'
-which vimpager >/dev/null &&    export PAGER='vimpager'
-which less >/dev/null &&        export MANPAGER='less'
+which vim >/dev/null 2>&1 &&        export EDITOR='vim'
+which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
+which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
 shopt -s histappend
@@ -58,15 +58,15 @@ CONFIG_FILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
 CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
 
 
-which colordiff >/dev/null && alias diff='colordiff'
+which colordiff >/dev/null 2>&1 && alias diff='colordiff'
 alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
 alias hn='history -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
-which sudo >/dev/null && alias s='sudo'
-which vim >/dev/null && alias vi='vim'
+which sudo >/dev/null 2>&1 && alias s='sudo'
+which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
 alias new_dotfiles="for f in ${CONFIG_FILES}; do wget -nv -x -nH --cut-dirs=1 -N ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
 function ffind () { find / -name $@ -ls; }
