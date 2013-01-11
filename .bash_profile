@@ -71,7 +71,7 @@ alias whereis='whereis -b'
 alias new_dotfiles="for f in ${CONFIG_FILES}; do wget -nv -x -nH --cut-dirs=1 -N ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
 function ffind () { find / -name $@ -ls; }
 
-OS=`uname`
+OS=`uname -o`
 if [ "$OS" = "Linux" -o "$OS" = "GNU/kFreeBSD" ]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis='sudo apt-get update'
@@ -104,6 +104,10 @@ elif [ "$OS" = "Darwin" ]; then
     alias new_dotfiles="for f in ${CONFIG_FILES}; do curl -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
     function inlog () { grep $@ /var/log/system.log; }
     function msglog () { tail $@ /var/log/system.log; }
+
+elif [ "$OS" = "Cygwin" ]; then
+    alias new_dotfiles="for f in ${CONFIG_FILES}; do curl -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
+
 fi
 
 if [ -f ~/.bash_aliases ]; then
