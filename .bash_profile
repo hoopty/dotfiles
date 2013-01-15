@@ -71,7 +71,7 @@ alias whereis='whereis -b'
 alias new_dotfiles="for f in ${CONFIG_FILES}; do wget -nv -x -nH --cut-dirs=1 -N ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
 function ffind () { find / -name $@ -ls; }
 
-OS=`uname -o`
+OS=`uname -o || uname`
 if [ "$OS" = "Linux" -o "$OS" = "GNU/kFreeBSD" ]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis='sudo apt-get update'
