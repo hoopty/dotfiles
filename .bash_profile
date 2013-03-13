@@ -57,6 +57,11 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 CONFIG_FILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
 CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
 
+SUDO_CMD=
+if [ "$(id -u)" -ne 0 ]; then
+    which sudo >/dev/null 2>&1 && SUDO_CMD="sudo"
+fi
+
 
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
 alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
@@ -74,33 +79,33 @@ function ffind () { find / -name $@ -ls; }
 OS=`uname -o 2>/dev/null || uname`
 if [ "$OS" = "Linux" -o "$OS" = "GNU/kFreeBSD" ]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
-    alias fis='sudo apt-get update'
-    alias fiuw='sudo apt-get upgrade'
-    alias fir='sudo apt-get check'
-    alias fic='sudo apt-get autoremove && sudo apt-get autoclean'
+    alias fis="${SUDO_CMD} apt-get update"
+    alias fiuw="${SUDO_CMD} apt-get upgrade"
+    alias fir="${SUDO_CMD} apt-get check"
+    alias fic="${SUDO_CMD} apt-get autoremove && ${SUDO_CMD} apt-get autoclean"
     function inlog () { grep $@ /var/log/syslog; }
     function msglog () { tail $@ /var/log/syslog; }
 
 elif [ "$OS" = "FreeBSD" ]; then
-    alias fis='cd /usr/ports && sudo make update'
-    alias fiuw='sudo portmaster -a'
-    alias fir='sudo portmaster --check-depends'
-    alias fic='sudo portmaster -s && sudo portmaster --clean-distfiles && sudo portmaster --clean-packages && sudo portmaster --check-port-dbdir'
+    alias fis="cd /usr/ports && ${SUDO_CMD} make update"
+    alias fiuw="${SUDO_CMD} portmaster -a"
+    alias fir="${SUDO_CMD} portmaster --check-depends"
+    alias fic="${SUDO_CMD} portmaster -s && ${SUDO_CMD} portmaster --clean-distfiles && ${SUDO_CMD} portmaster --clean-packages && ${SUDO_CMD} portmaster --check-port-dbdir"
     alias new_dotfiles="for f in ${CONFIG_FILES}; do fetch -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
     function inlog () { grep $@ /var/log/messages; }
     function msglog () { tail $@ /var/log/messages; }
     function wwwlog () { tail $@ /var/log/httpd-access-`date '+%Y-%m'`.log; }
     function wwwerrlog () { tail $@ /var/log/httpd-error-`date '+%Y-%m'`.log; }
-    alias gstat='sudo gstat -f da\.$'
+    alias gstat="${SUDO_CMD} gstat -f da\.$"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
 
 elif [ "$OS" = "Darwin" ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
-    alias fis='sudo port -d selfupdate'
-    alias fiuw='sudo port -v upgrade outdated'
-    alias fic='sudo port -v uninstall inactive'
+    alias fis="${SUDO_CMD} port -d selfupdate"
+    alias fiuw="${SUDO_CMD} port -v upgrade outdated"
+    alias fic="${SUDO_CMD} port -v uninstall inactive"
     alias new_dotfiles="for f in ${CONFIG_FILES}; do curl -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
     function inlog () { grep $@ /var/log/system.log; }
     function msglog () { tail $@ /var/log/system.log; }
