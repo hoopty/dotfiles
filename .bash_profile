@@ -35,8 +35,34 @@ export C_YELLOW='\[\e[1;33m\]'
 #export C_LIGHT_GRAY='\[\e[0;37m\]'
 alias colorslist="set | egrep 'C_\w*'" # lists colors
 
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
+function parse_git_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+}
+
+function free_space() {
+    df -h . | awk 'NR==2{ print $4 }'
+}
+
+function return_code() {
+    if [ $1 != "0" ]; then
+        echo -e "\e[4;31m${1}\e[01;37m"
+    else
+        echo -e "\e[32;1m${1}\e[01;37m"
+    fi
+}
+
+function num_files() {
+    ls -1 | wc -l | sed 's: ::g'
+}
+
 # color prompt (using colors by name)
-export PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
+#export PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
+export PS1="${C_LIGHT_CYAN}┌─[\$(return_code \$?)${C_LIGHT_CYAN}]─(${C_LIGHT_GREEN}\$(num_files) files, \$(free_space)${C_LIGHT_CYAN})─[${C_NC}\w${C_LIGHT_CYAN}]${C_NC}\$(parse_git_branch)${C_LIGHT_CYAN}\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_CYAN})${C_NC}$"
+
 case $TERM in
     xterm*)
         export PS1="\[\e]0;\u@\h \w\007\]${PS1}"
@@ -64,7 +90,7 @@ fi
 
 
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
-alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
+alias duf='sudo du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
 alias hn='history -n'
 alias l='less -gimS'
