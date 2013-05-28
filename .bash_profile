@@ -49,9 +49,9 @@ function free_space() {
 
 function return_code() {
     if [ $1 != "0" ]; then
-        echo -e "\e[4;31m${1}\e[01;37m"
+        echo -e "\e[4;31m${1}\e[0m"
     else
-        echo -e "\e[32;1m${1}\e[01;37m"
+        echo -e "\e[32;1m${1}\e[0m"
     fi
 }
 
