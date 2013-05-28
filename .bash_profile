@@ -26,6 +26,7 @@ export C_LIGHT_GREEN='\[\e[1;32m\]'
 #export C_CYAN='\[\e[0;36m\]'
 export C_LIGHT_CYAN='\[\e[1;36m\]'
 #export C_RED='\[\e[0;31m\]'
+export C_U_RED='\[\e[4;31m\]'
 #export C_LIGHT_RED='\[\e[1;31m\]'
 #export C_PURPLE='\[\e[0;35m\]'
 #export C_LIGHT_PURPLE='\[\e[1;35m\]'
@@ -35,6 +36,18 @@ export C_YELLOW='\[\e[1;33m\]'
 #export C_LIGHT_GRAY='\[\e[0;37m\]'
 alias colorslist="set | egrep 'C_\w*'" # lists colors
 
+function return_code() {
+    [[ "$1" != "0" ]] && echo -e "$1"
+}
+
+function num_files() {
+    ls -1 | wc -l | sed 's: ::g'
+}
+
+function free_space() {
+    df -h . | awk 'NR==2{ print $4 }'
+}
+
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
 }
@@ -43,25 +56,9 @@ function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
 
-function free_space() {
-    df -h . | awk 'NR==2{ print $4 }'
-}
-
-function return_code() {
-    if [ $1 != "0" ]; then
-        echo -e "\e[4;31m${1}\e[0m"
-    else
-        echo -e "\e[32;1m${1}\e[0m"
-    fi
-}
-
-function num_files() {
-    ls -1 | wc -l | sed 's: ::g'
-}
-
 # color prompt (using colors by name)
 #export PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
-export PS1="${C_LIGHT_CYAN}┌─[\$(return_code \$?)${C_LIGHT_CYAN}]─(${C_LIGHT_GREEN}\$(num_files) files, \$(free_space)${C_LIGHT_CYAN})─[${C_NC}\w${C_LIGHT_CYAN}]${C_NC}\$(parse_git_branch)${C_LIGHT_CYAN}\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_CYAN})${C_NC}$"
+export PS1="${C_LIGHT_CYAN}┌─[${C_U_RED}\$(return_code \$?)${C_NC}${C_LIGHT_CYAN}]─(${C_LIGHT_GREEN}\$(num_files) files, \$(free_space)${C_LIGHT_CYAN})─[${C_NC}\w${C_LIGHT_CYAN}]${C_NC}\$(parse_git_branch)${C_LIGHT_CYAN}\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_CYAN})${C_NC}$"
 
 case $TERM in
     xterm*)
