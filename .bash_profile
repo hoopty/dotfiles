@@ -81,11 +81,11 @@ export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
-CONFIG_FILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
-CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
-which wget >/dev/null 2>&1  && CONFIG_GET='wget -nv -O'
-which curl >/dev/null 2>&1  && CONFIG_GET='curl -o'
-which fetch >/dev/null 2>&1 && CONFIG_GET='fetch -o'
+DOTFILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
+DOTFILES_URL='https://raw.github.com/hoopty/dotfiles/master'
+which wget >/dev/null 2>&1  && DOTFILES_GET='wget -nv -O'
+which curl >/dev/null 2>&1  && DOTFILES_GET='curl -o'
+which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch -o'
 
 SUDO_CMD=
 if [ "$(id -u)" -ne 0 ]; then
@@ -101,7 +101,7 @@ alias hn='history -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
-alias new_dotfiles="for f in ${CONFIG_FILES}; do ${CONFIG_GET} ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
+alias new_dotfiles="for f in ${DOTFILES}; do ${DOTFILES_GET} ~/\$f ${DOTFILES_URL}/\$f; done; . ~/.bash_profile"
 which sudo >/dev/null 2>&1 && alias s='sudo'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
