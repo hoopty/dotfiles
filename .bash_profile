@@ -45,7 +45,7 @@ function free_space() {
 }
 
 function parse_git_dirty {
-  [[ -z $(git status -s 2> /dev/null) ]] && echo "*"
+  [[ $(git status -s 2> /dev/null) != "" ]] && echo "*"
 }
 
 function parse_git_branch {
