@@ -142,6 +142,7 @@ elif [ "$OS" = "Darwin" ]; then
     function msglog () { tail $@ /var/log/system.log; }
 
 elif [ "$OS" = "Cygwin" ]; then
+    # no-op
 fi
 
 if [ -f ~/.bash_aliases ]; then
