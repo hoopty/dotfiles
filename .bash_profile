@@ -19,12 +19,12 @@ export C_NC='\[\e[0m\]' # No Color
 #export C_WHITE='\[\e[1;37m\]'
 #export C_BLACK='\[\e[0;30m\]'
 #export C_BLUE='\[\e[0;34m\]'
-export C_LIGHT_BLUE='\[\e[1;34m\]'
+#export C_LIGHT_BLUE='\[\e[1;34m\]'
 #export C_GREEN='\[\e[0;32m\]'
 export C_LIGHT_GREEN='\[\e[1;32m\]'
 #export C_CYAN='\[\e[0;36m\]'
 export C_LIGHT_CYAN='\[\e[1;36m\]'
-#export C_RED='\[\e[0;31m\]'
+export C_RED='\[\e[0;31m\]'
 export C_U_RED='\[\e[4;31m\]'
 #export C_LIGHT_RED='\[\e[1;31m\]'
 #export C_PURPLE='\[\e[0;35m\]'
@@ -45,10 +45,12 @@ function free_space() {
 }
 
 function parse_git_dirty {
-  [[ $(git status -s 2> /dev/null) != '' ]] && echo '*'
+    [[ -n "${PROMPT_SKIP_GIT_STATUS}" ]] && return
+    [[ $(git status -s 2> /dev/null) != '' ]] && echo '*'
 }
 
 function parse_git_branch {
+    [[ -n "${PROMPT_SKIP_GIT_BRANCH}" ]] && return
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
@@ -56,24 +58,19 @@ function parse_git_branch {
 #PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
 
 set_bash_prompt() {
-    PS1="${C_LIGHT_BLUE}┌─[${C_LIGHT_GREEN}"
+    PS1="${C_YELLOW}┌─[${C_LIGHT_GREEN}"
     [[ "${1}" != "0" ]] && PS1+="${C_U_RED}"
-    PS1+="${1}${C_NC}${C_LIGHT_BLUE}]─"
-    PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_LIGHT_BLUE})"
-    PS1+="─[${C_NC}\w${C_LIGHT_BLUE}]"
-    [[ -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)\$(parse_git_dirty)${C_LIGHT_BLUE}]"
-    PS1+="\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_BLUE})"
+    PS1+="${1}${C_NC}${C_YELLOW}]─"
+    PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_YELLOW})"
+    PS1+="─[${C_NC}\w${C_YELLOW}]"
+    [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
+    PS1+="\n└──(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
     PS1+="${C_NC}$"
+    [[ "${TERM:5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
 }
-PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
+#PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
+PROMPT_COMMAND='set_bash_prompt $?'
 
-case $TERM in
-    xterm*)
-        export PS1="\[\e]0;\u@\h \w\007\]${PS1}"
-        #set -o functrace
-        #trap 'echo -ne "\033]0;${BASH_COMMAND}\007"' DEBUG
-    ;;
-esac
 
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
