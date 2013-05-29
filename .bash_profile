@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/bin
+[[ -d $HOME/bin ]] && export PATH=$PATH:$HOME/bin
 which vim >/dev/null 2>&1 &&        export EDITOR='vim'
 which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 which less >/dev/null 2>&1 &&       export MANPAGER='less'
@@ -45,11 +45,11 @@ function free_space() {
 }
 
 function parse_git_dirty {
-  [[ $(git status -s 2> /dev/null) != "" ]] && echo "*"
+  [[ $(git status -s 2> /dev/null) != '' ]] && echo '*'
 }
 
 function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 # color prompt (using colors by name)
@@ -86,6 +86,9 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 CONFIG_FILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
 CONFIG_URL='https://raw.github.com/hoopty/dotfiles/master'
+which wget >/dev/null 2>&1  && CONFIG_GET='wget -nv -O'
+which curl >/dev/null 2>&1  && CONFIG_GET='curl -o'
+which fetch >/dev/null 2>&1 && CONFIG_GET='fetch -o'
 
 SUDO_CMD=
 if [ "$(id -u)" -ne 0 ]; then
@@ -100,10 +103,10 @@ alias hn='history -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
+alias new_dotfiles="for f in ${CONFIG_FILES}; do ${CONFIG_GET} ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
 which sudo >/dev/null 2>&1 && alias s='sudo'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
-alias new_dotfiles="for f in ${CONFIG_FILES}; do wget -nv -x -nH --cut-dirs=1 -N ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
 function ffind () { find / -name $@ -ls; }
 
 OS=`uname -o 2>/dev/null || uname`
@@ -121,7 +124,6 @@ elif [ "$OS" = "FreeBSD" ]; then
     alias fiuw="${SUDO_CMD} portmaster -a"
     alias fir="${SUDO_CMD} portmaster --check-depends"
     alias fic="${SUDO_CMD} portmaster -s && ${SUDO_CMD} portmaster --clean-distfiles && ${SUDO_CMD} portmaster --clean-packages && ${SUDO_CMD} portmaster --check-port-dbdir"
-    alias new_dotfiles="for f in ${CONFIG_FILES}; do fetch -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
     function inlog () { grep $@ /var/log/messages; }
     function msglog () { tail $@ /var/log/messages; }
     function wwwlog () { tail $@ /var/log/httpd-access-`date '+%Y-%m'`.log; }
@@ -136,13 +138,10 @@ elif [ "$OS" = "Darwin" ]; then
     alias fis="${SUDO_CMD} port -d selfupdate"
     alias fiuw="${SUDO_CMD} port -v upgrade outdated"
     alias fic="${SUDO_CMD} port -v uninstall inactive"
-    alias new_dotfiles="for f in ${CONFIG_FILES}; do curl -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
     function inlog () { grep $@ /var/log/system.log; }
     function msglog () { tail $@ /var/log/system.log; }
 
 elif [ "$OS" = "Cygwin" ]; then
-    alias new_dotfiles="for f in ${CONFIG_FILES}; do curl -o ~/\$f ${CONFIG_URL}/\$f; done; . ~/.bash_profile"
-
 fi
 
 if [ -f ~/.bash_aliases ]; then
