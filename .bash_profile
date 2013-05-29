@@ -9,7 +9,6 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 #export TERM=xterm-color
 export CLICOLOR=1
@@ -20,7 +19,7 @@ export C_NC='\[\e[0m\]' # No Color
 #export C_WHITE='\[\e[1;37m\]'
 #export C_BLACK='\[\e[0;30m\]'
 #export C_BLUE='\[\e[0;34m\]'
-#export C_LIGHT_BLUE='\[\e[1;34m\]'
+export C_LIGHT_BLUE='\[\e[1;34m\]'
 #export C_GREEN='\[\e[0;32m\]'
 export C_LIGHT_GREEN='\[\e[1;32m\]'
 #export C_CYAN='\[\e[0;36m\]'
@@ -34,11 +33,8 @@ export C_U_RED='\[\e[4;31m\]'
 export C_YELLOW='\[\e[1;33m\]'
 #export C_GRAY='\[\e[1;30m\]'
 #export C_LIGHT_GRAY='\[\e[0;37m\]'
-alias colorslist="set | egrep 'C_\w*'" # lists colors
+alias colorslist="for c in $(set | egrep '^C_' | cut -f 1 -d = | xargs); do printf \"\${!c:2:-2}\${c}\${C_NC:2:-2}\n\"; done"
 
-function return_code() {
-    [[ "$1" != "0" ]] && echo -e "$1"
-}
 
 function num_files() {
     ls -1 | wc -l | sed 's: ::g'
@@ -53,12 +49,23 @@ function parse_git_dirty {
 }
 
 function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
 }
 
 # color prompt (using colors by name)
-#export PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
-export PS1="${C_LIGHT_CYAN}┌─[${C_U_RED}\$(return_code \$?)${C_NC}${C_LIGHT_CYAN}]─(${C_LIGHT_GREEN}\$(num_files) files, \$(free_space)${C_LIGHT_CYAN})─[${C_NC}\w${C_LIGHT_CYAN}]${C_NC}\$(parse_git_branch)${C_LIGHT_CYAN}\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_CYAN})${C_NC}$"
+#PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
+
+set_bash_prompt() {
+    PS1="${C_LIGHT_BLUE}┌─[${C_LIGHT_GREEN}"
+    [[ "${1}" != "0" ]] && PS1+="${C_U_RED}"
+    PS1+="${1}${C_NC}${C_LIGHT_BLUE}]─"
+    PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_LIGHT_BLUE})"
+    PS1+="─[${C_NC}\w${C_LIGHT_BLUE}]"
+    [[ -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)\$(parse_git_dirty)${C_LIGHT_BLUE}]"
+    PS1+="\n└──(${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_LIGHT_BLUE})"
+    PS1+="${C_NC}$"
+}
+PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
 
 case $TERM in
     xterm*)
