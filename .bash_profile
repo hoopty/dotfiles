@@ -28,7 +28,7 @@ export C_RED='\[\e[0;31m\]'
 export C_U_RED='\[\e[4;31m\]'
 #export C_LIGHT_RED='\[\e[1;31m\]'
 #export C_PURPLE='\[\e[0;35m\]'
-#export C_LIGHT_PURPLE='\[\e[1;35m\]'
+export C_LIGHT_PURPLE='\[\e[1;35m\]'
 #export C_BROWN='\[\e[0;33m\]'
 export C_YELLOW='\[\e[1;33m\]'
 #export C_GRAY='\[\e[1;30m\]'
@@ -66,7 +66,7 @@ set_bash_prompt() {
     [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
     PS1+="\n└──(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
     PS1+="${C_NC}$"
-    [[ "${TERM:5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
+    [[ "${TERM::5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
 }
 #PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
 PROMPT_COMMAND='set_bash_prompt $?'
@@ -96,6 +96,7 @@ fi
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
 alias duf='sudo du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
+alias ha='history -a'
 alias hn='history -n'
 alias l='less -gimS'
 alias ll='ls -aFGhl'
