@@ -45,12 +45,12 @@ function free_space() {
 }
 
 function parse_git_dirty {
-    [[ -n "${PROMPT_SKIP_GIT_STATUS}" ]] && return
+    [[ -n "${PROMPT_SKIP_GIT_STATUS}" ]] || return
     [[ $(git status -s 2> /dev/null) != '' ]] && echo '*'
 }
 
 function parse_git_branch {
-    [[ -n "${PROMPT_SKIP_GIT_BRANCH}" ]] && return
+    [[ -n "${PROMPT_SKIP_GIT_BRANCH}" ]] || return
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
