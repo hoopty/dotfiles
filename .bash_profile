@@ -144,11 +144,13 @@ elif [[ "$OS" == 'Darwin' ]]; then
     function msglog () { tail $@ /var/log/system.log; }
 fi
 
-if [[ -f ~/.bash_aliases ]]; then
-    . ~/.bash_aliases
-fi
+
+[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
+
+[[ $PS1 && -f /etc/bash_completion ]] && . /etc/bash_completion
+
 [[ $PS1 && -f /usr/local/share/bash-completion/bash_completion.sh ]] && \
-    source /usr/local/share/bash-completion/bash_completion.sh
+    . /usr/local/share/bash-completion/bash_completion.sh
 
 
 # deal with terminal resizing
