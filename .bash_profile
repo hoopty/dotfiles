@@ -64,7 +64,7 @@ set_bash_prompt() {
     PS1+="─(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
     PS1+="─(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_YELLOW})"
     [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
-    PS1+="\[\n\]└─"
+    PS1+="\n└─"
     PS1+="─[${C_NC}\w${C_YELLOW}]"
     PS1+="${C_NC}$"
     [[ "${TERM::5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
@@ -89,7 +89,7 @@ which curl >/dev/null 2>&1  && DOTFILES_GET='curl -o'
 which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch -o'
 
 SUDO_CMD=
-if [ "$(id -u)" -ne 0 ]; then
+if [[ "$(id -u)" -ne 0 ]]; then
     which sudo >/dev/null 2>&1 && SUDO_CMD="sudo"
 fi
 
@@ -108,8 +108,8 @@ which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
 
-OS=`uname -o 2>/dev/null || uname`
-if [ "$OS" = "Linux" -o "$OS" = "GNU/kFreeBSD" ]; then
+OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
+if [[ "$OS" == "Linux" || "$OS" == "GNU/kFreeBSD" ]]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis="${SUDO_CMD} apt-get update"
     alias fiuw="${SUDO_CMD} apt-get upgrade"
@@ -118,20 +118,20 @@ if [ "$OS" = "Linux" -o "$OS" = "GNU/kFreeBSD" ]; then
     function inlog () { grep $@ /var/log/syslog; }
     function msglog () { tail $@ /var/log/syslog; }
 
-elif [ "$OS" = "FreeBSD" ]; then
+elif [[ "$OS" == "FreeBSD" ]]; then
     alias fis="cd /usr/ports && ${SUDO_CMD} make update"
     alias fiuw="${SUDO_CMD} portmaster -a"
     alias fir="${SUDO_CMD} portmaster --check-depends"
     alias fic="${SUDO_CMD} portmaster -s && ${SUDO_CMD} portmaster --clean-distfiles && ${SUDO_CMD} portmaster --clean-packages && ${SUDO_CMD} portmaster --check-port-dbdir"
     function inlog () { grep $@ /var/log/messages; }
     function msglog () { tail $@ /var/log/messages; }
-    function wwwlog () { tail $@ /var/log/httpd-access-`date '+%Y-%m'`.log; }
-    function wwwerrlog () { tail $@ /var/log/httpd-error-`date '+%Y-%m'`.log; }
+    function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
+    function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
     alias gstat="${SUDO_CMD} gstat -f da\.$"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
 
-elif [ "$OS" = "Darwin" ]; then
+elif [[ "$OS" == "Darwin" ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
     alias fis="${SUDO_CMD} port -d selfupdate"
@@ -141,7 +141,7 @@ elif [ "$OS" = "Darwin" ]; then
     function msglog () { tail $@ /var/log/system.log; }
 fi
 
-if [ -f ~/.bash_aliases ]; then
+if [[ -f ~/.bash_aliases ]]; then
     . ~/.bash_aliases
 fi
 [[ $PS1 && -f /usr/local/share/bash-completion/bash_completion.sh ]] && \
