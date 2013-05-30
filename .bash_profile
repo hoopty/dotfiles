@@ -109,7 +109,7 @@ alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
-if [[ "$OS" == "Linux" || "$OS" == "GNU/Linux" || "$OS" == "GNU/kFreeBSD" ]]; then
+if [[ "$OS" == 'Linux' || "$OS" == 'GNU/kFreeBSD' ]]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis="${SUDO_CMD} apt-get update"
     alias fiuw="${SUDO_CMD} apt-get upgrade"
@@ -118,7 +118,10 @@ if [[ "$OS" == "Linux" || "$OS" == "GNU/Linux" || "$OS" == "GNU/kFreeBSD" ]]; th
     function inlog () { grep $@ /var/log/syslog; }
     function msglog () { tail $@ /var/log/syslog; }
 
-elif [[ "$OS" == "FreeBSD" ]]; then
+elif [[ "$OS" == 'GNU/Linux' ]]; then
+    alias ll='LC_COLLATE=C ls -alhF --color=auto'
+
+elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fis="cd /usr/ports && ${SUDO_CMD} make update"
     alias fiuw="${SUDO_CMD} portmaster -a"
     alias fir="${SUDO_CMD} portmaster --check-depends"
@@ -131,7 +134,7 @@ elif [[ "$OS" == "FreeBSD" ]]; then
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
 
-elif [[ "$OS" == "Darwin" ]]; then
+elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
     alias fis="${SUDO_CMD} port -d selfupdate"
