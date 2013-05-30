@@ -109,7 +109,7 @@ alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
-if [[ "$OS" == "Linux" || "$OS" == "GNU/kFreeBSD" ]]; then
+if [[ "$OS" == "Linux" || "$OS" == "GNU/Linux" || "$OS" == "GNU/kFreeBSD" ]]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis="${SUDO_CMD} apt-get update"
     alias fiuw="${SUDO_CMD} apt-get upgrade"
