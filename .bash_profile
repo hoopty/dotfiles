@@ -60,11 +60,12 @@ function parse_git_branch {
 set_bash_prompt() {
     PS1="${C_YELLOW}┌─[${C_LIGHT_GREEN}"
     [[ "${1}" != "0" ]] && PS1+="${C_U_RED}"
-    PS1+="${1}${C_NC}${C_YELLOW}]─"
-    PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_YELLOW})"
-    PS1+="─[${C_NC}\w${C_YELLOW}]"
+    PS1+="${1}${C_NC}${C_YELLOW}]"
+    PS1+="─(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
+    PS1+="─(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_YELLOW})"
     [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
-    PS1+="\n└──(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
+    PS1+="\[\n\]└─"
+    PS1+="─[${C_NC}\w${C_YELLOW}]"
     PS1+="${C_NC}$"
     [[ "${TERM::5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
 }
