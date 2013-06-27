@@ -158,7 +158,7 @@ shopt -s checkwinsize
 # minor errors in the spelling of a directory component in a cd command will be corrected
 shopt -s cdspell
 # match filenames in a case-insensitive fashion when performing pathname expansion
-shopt -s nocaseglob
+#shopt -s nocaseglob
 
 
 # do not show hidden files in the list: really useful when working in your home directory
