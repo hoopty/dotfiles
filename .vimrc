@@ -1,6 +1,7 @@
+syntax on
+
 set encoding=utf-8
 
-syntax on
 set bg=dark
 set ruler
 set virtualedit=all
@@ -43,4 +44,3 @@ highlight OverLength ctermfg=white ctermbg=darkred ctermfg=white guibg=#FFD9D9
 
 autocmd BufWritePost *.php silent! !php -l <afile> > /dev/null
 autocmd BufWritePost *.py  silent! !pyflakes <afile> > /dev/null
-

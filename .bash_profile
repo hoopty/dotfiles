@@ -66,7 +66,7 @@ set_bash_prompt() {
     [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
     PS1+="\n└─"
     PS1+="─[${C_NC}\w${C_YELLOW}]"
-    PS1+=" ${C_NC}\$"
+    PS1+=" ${C_NC}\\$"
     [[ "${TERM::5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
 }
 #PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
