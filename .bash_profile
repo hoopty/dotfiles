@@ -58,16 +58,13 @@ function parse_git_branch {
 #PS1="${C_YELLOW}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC}[${C_LIGHT_CYAN}\w${C_NC}]$"
 
 set_bash_prompt() {
-    PS1="${C_YELLOW}┌─[${C_LIGHT_GREEN}"
-    [[ "${1}" != "0" ]] && PS1+="${C_U_RED}"
-    PS1+="${1}${C_NC}${C_YELLOW}]"
-    PS1+="─(${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_YELLOW})"
-    PS1+="─(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_YELLOW})"
-    [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="─[${C_NC}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_YELLOW}]"
-    PS1+="\n└─"
-    PS1+="─[${C_NC}\w${C_YELLOW}]"
-    PS1+=" ${C_NC}\\$"
-    [[ "${TERM::5}" == "xterm" ]] && PS1="\[\e]0;\u@\h \w\007\]${PS1}"
+    PS1="${C_LIGHT_PURPLE}\u${C_NC}@${C_LIGHT_GREEN}\h${C_NC} "
+    [[ "${1}" != "0" ]] && PS1+="${C_U_RED}${1}${C_NC} "
+    #PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_NC}) "
+    PS1+="\w "
+    [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="(${C_LIGHT_CYAN}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_NC}) "
+    PS1+="\\$"
+    [[ "${TERM::5}" == "xterm" ]] && PS1+="\[\e]0;\u@\h \w\007\]"
 }
 #PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
 PROMPT_COMMAND='set_bash_prompt $?'
