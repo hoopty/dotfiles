@@ -36,22 +36,22 @@ export C_YELLOW='\[\e[1;33m\]'
 alias colorslist="for c in $(set | egrep '^C_' | cut -f 1 -d = | xargs); do printf \"\${!c:2:-2}\${c}\${C_NC:2:-2}\n\"; done"
 
 
-function num_files() {
-    ls -1 | wc -l | sed 's: ::g'
-}
+#function num_files() {
+#    ls -1 | wc -l | sed 's: ::g'
+#}
 
-function free_space() {
-    df -h . | awk 'NR==2{ print $4 }'
+#function free_space() {
+#    df -h . | awk 'NR==2{ print $4 }'
+#}
+
+function parse_git_branch {
+    [[ -n "${PROMPT_SKIP_GIT_BRANCH}" ]] && return
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function parse_git_dirty {
     [[ -n "${PROMPT_SKIP_GIT_STATUS}" ]] && return
     [[ $(git status -s 2> /dev/null) != '' ]] && echo '*'
-}
-
-function parse_git_branch {
-    [[ -n "${PROMPT_SKIP_GIT_BRANCH}" ]] && return
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 # color prompt (using colors by name)
@@ -170,38 +170,38 @@ bind "set show-all-if-ambiguous on"
 bind "set completion-ignore-case on"
 
 ## Bringing VI to bash prompts
-set -o vi
+#set -o vi
 # Goto begin of line
-bind -m vi-insert C-a:vi-insert-beg
-bind -m vi-command C-a:vi-insert-beg
+#bind -m vi-insert C-a:vi-insert-beg
+#bind -m vi-command C-a:vi-insert-beg
 # Goto end of line
-bind -m vi-insert C-e:vi-append-eol
-bind -m vi-command C-e:vi-append-eol
+#bind -m vi-insert C-e:vi-append-eol
+#bind -m vi-command C-e:vi-append-eol
 # clear screen
-bind -m vi-insert C-l:clear-screen
-bind -m vi-command C-l:clear-screen
+#bind -m vi-insert C-l:clear-screen
+#bind -m vi-command C-l:clear-screen
 # insert last argument
-bind -m vi-insert C-k:insert-last-argument
-bind -m vi-command C-k:insert-last-argument
+#bind -m vi-insert C-k:insert-last-argument
+#bind -m vi-command C-k:insert-last-argument
 # Used by macros
-bind -m vi-insert C-K:kill-whole-line
+#bind -m vi-insert C-K:kill-whole-line
 # C-i is used in other macros.
-bind -m vi-command C-i:vi-insertion-mode
+#bind -m vi-command C-i:vi-insertion-mode
 
-bind -m vi-command -r 'v'
+#bind -m vi-command -r 'v'
 
 # bind "tr" to reverse-search-history
-bind -m vi-command '"\x74\x72"':"\"\C-i\C-r\""
+#bind -m vi-command '"\x74\x72"':"\"\C-i\C-r\""
 # Binding shell ls command to a key tl
-bind -m vi-command -x '"tl":ls'
+#bind -m vi-command -x '"tl":ls'
 # bind tt to !:* : All argument of last command
-bind -m vi-command '"\x74\x74"':" \"\C-i \!:* \""
+#bind -m vi-command '"\x74\x74"':" \"\C-i \!:* \""
 # Bind "tk" to save the current command to history without executing
-bind -m vi-command '"\x74\x6b"':"\"\C-ahistory -s '\C-e'\C-m"
+#bind -m vi-command '"\x74\x6b"':"\"\C-ahistory -s '\C-e'\C-m"
 # th shows the last 8 commands.
-bind -m vi-command -x '"th":"history 8"'
+#bind -m vi-command -x '"th":"history 8"'
 
-bind -m vi-command b:vi-prev-word
-bind -m vi-command c:vi-change-to
-bind -m vi-command /:vi-search
+#bind -m vi-command b:vi-prev-word
+#bind -m vi-command c:vi-change-to
+#bind -m vi-command /:vi-search
 
