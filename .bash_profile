@@ -119,14 +119,15 @@ elif [[ "$OS" == 'GNU/Linux' ]]; then
     alias ll='LC_COLLATE=C ls -alhF --color=auto'
 
 elif [[ "$OS" == 'FreeBSD' ]]; then
-    alias fis="cd /usr/ports && ${SUDO_CMD} make update"
-    alias fiuw="${SUDO_CMD} portmaster -a"
-    alias fir="${SUDO_CMD} portmaster --check-depends"
-    alias fic="${SUDO_CMD} portmaster -s && ${SUDO_CMD} portmaster --clean-distfiles && ${SUDO_CMD} portmaster --clean-packages && ${SUDO_CMD} portmaster --check-port-dbdir"
+    alias fis="${SUDO_CMD} pkg update"
+    alias fiuw="${SUDO_CMD} pkg upgrade"
+    alias fir="${SUDO_CMD} pkg check -Bds -a"
+    alias fic="${SUDO_CMD} pkg clean -ay && ${SUDO_CMD} pkg autoremove"
     function inlog () { grep $@ /var/log/messages; }
     function msglog () { tail $@ /var/log/messages; }
     function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
     function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
+    function je () { for j in $(jls name); do echo "${j}:"; ${SUDO_CMD} jexec ${j} $@; done }
     alias gstat="${SUDO_CMD} gstat -f da\.$"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
