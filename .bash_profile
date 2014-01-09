@@ -85,9 +85,9 @@ which wget >/dev/null 2>&1  && DOTFILES_GET='wget -nv -O'
 which curl >/dev/null 2>&1  && DOTFILES_GET='curl -o'
 which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch -o'
 
-SUDO_CMD=
+S=
 if [[ "$(id -u)" -ne 0 ]]; then
-    which sudo >/dev/null 2>&1 && SUDO_CMD="sudo"
+    which sudo >/dev/null 2>&1 && S="sudo "
 fi
 
 
@@ -108,10 +108,10 @@ function ffind () { find / -name $@ -ls; }
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
 if [[ "$OS" == 'Linux' || "$OS" == 'GNU/kFreeBSD' ]]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
-    alias fis="${SUDO_CMD} apt-get update"
-    alias fiuw="${SUDO_CMD} apt-get upgrade"
-    alias fir="${SUDO_CMD} apt-get check"
-    alias fic="${SUDO_CMD} apt-get autoremove && ${SUDO_CMD} apt-get autoclean"
+    alias fis="${S}apt-get update"
+    alias fiuw="${S}apt-get upgrade"
+    alias fir="${S}apt-get check"
+    alias fic="${S}apt-get autoremove && ${S}apt-get autoclean"
     function inlog () { grep $@ /var/log/syslog; }
     function msglog () { tail $@ /var/log/syslog; }
 
@@ -119,25 +119,26 @@ elif [[ "$OS" == 'GNU/Linux' ]]; then
     alias ll='LC_COLLATE=C ls -alhF --color=auto'
 
 elif [[ "$OS" == 'FreeBSD' ]]; then
-    alias fis="${SUDO_CMD} pkg update"
-    alias fiuw="${SUDO_CMD} pkg upgrade"
-    alias fir="${SUDO_CMD} pkg check -Bds -a"
-    alias fic="${SUDO_CMD} pkg clean -ay && ${SUDO_CMD} pkg autoremove"
+    alias fis="${S}pkg update"
+    alias fiuw="${S}pkg upgrade"
+    alias fir="${S}pkg check -Bds"
+    alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
+    alias pkg-all="${S}pkg upgrade; ${S}pkg check -Bds; ${S}pkg clean -ay && ${S}pkg autoremove"
     function inlog () { grep $@ /var/log/messages; }
     function msglog () { tail $@ /var/log/messages; }
     function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
     function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
-    function je () { for j in $(jls name); do echo "${j}:"; ${SUDO_CMD} jexec ${j} $@; done }
-    alias gstat="${SUDO_CMD} gstat -f da\.$"
+    function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; done }
+    alias gstat="${S}gstat -f da\.$"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
 
 elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
-    alias fis="${SUDO_CMD} port -d selfupdate"
-    alias fiuw="${SUDO_CMD} port -v upgrade outdated"
-    alias fic="${SUDO_CMD} port -v uninstall inactive"
+    alias fis="${S}port -d selfupdate"
+    alias fiuw="${S}port -v upgrade outdated"
+    alias fic="${S}port -v uninstall inactive"
     function inlog () { grep $@ /var/log/system.log; }
     function msglog () { tail $@ /var/log/system.log; }
 fi
