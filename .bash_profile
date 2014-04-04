@@ -129,7 +129,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
     function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
-    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1} $@; echo; done }
+    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1}; echo; done }
     alias gstat="${S}gstat -f da\.$"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
