@@ -80,7 +80,7 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 DOTFILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
-DOTFILES_URL='https://raw.github.com/hoopty/dotfiles/master'
+DOTFILES_URL='https://raw.githubusercontent.com/hoopty/dotfiles/master'
 which wget >/dev/null 2>&1  && DOTFILES_GET='wget -nv -O'
 which curl >/dev/null 2>&1  && DOTFILES_GET='curl -o'
 which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch -o'
@@ -130,7 +130,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1}; echo; done }
-    alias gstat="${S}gstat -f da\.$"
+    alias gstat="${S}gstat -p -f '^[a]?da[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
 
