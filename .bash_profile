@@ -83,7 +83,7 @@ DOTFILES='.bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
 DOTFILES_URL='https://raw.githubusercontent.com/hoopty/dotfiles/master'
 which wget >/dev/null 2>&1  && DOTFILES_GET='wget -nv -O'
 which curl >/dev/null 2>&1  && DOTFILES_GET='curl -o'
-which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch -o'
+which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch --no-verify-peer -o'
 
 S=
 if [[ "$(id -u)" -ne 0 ]]; then
