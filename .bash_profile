@@ -106,17 +106,13 @@ alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
-if [[ "$OS" == 'Linux' || "$OS" == 'GNU/kFreeBSD' ]]; then
+if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' || "$OS" == 'GNU/kFreeBSD' ]]; then
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis="${S}apt-get update"
     alias fiuw="${S}apt-get upgrade"
     alias fir="${S}apt-get check"
     alias fic="${S}apt-get autoremove && ${S}apt-get autoclean"
-    function inlog () { grep $@ /var/log/syslog; }
-    function msglog () { tail $@ /var/log/syslog; }
-
-elif [[ "$OS" == 'GNU/Linux' ]]; then
-    alias ll='LC_COLLATE=C ls -alhF --color=auto'
+    LOGFILE=/var/log/syslog
 
 elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fis="${S}pkg update"
@@ -124,15 +120,14 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fir="${S}pkg check -Bds"
     alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
     alias pkg-all="${S}pkg upgrade; ${S}pkg check -Bds; ${S}pkg clean -ay && ${S}pkg autoremove"
-    function inlog () { grep $@ /var/log/messages; }
-    function msglog () { tail $@ /var/log/messages; }
-    function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
-    function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
-    function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
-    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1}; echo; done }
     alias gstat="${S}gstat -p -f '^[a]?da[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
+    #function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
+    #function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
+    function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
+    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1}; echo; done }
+    LOGFILE=/var/log/messages
 
 elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
@@ -140,9 +135,11 @@ elif [[ "$OS" == 'Darwin' ]]; then
     alias fis="${S}port -d selfupdate"
     alias fiuw="${S}port -v upgrade outdated"
     alias fic="${S}port -v uninstall inactive"
-    function inlog () { grep $@ /var/log/system.log; }
-    function msglog () { tail $@ /var/log/system.log; }
+    LOGFILE=/var/log/system.log
 fi
+
+function inlog () { grep $@ ${LOGFILE}; }
+function msglog () { tail $@ ${LOGFILE}; }
 
 
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
