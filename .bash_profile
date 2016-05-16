@@ -112,6 +112,7 @@ if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' || "$OS" == 'GNU/kFreeBSD' ]]; th
     alias fiuw="${S}apt-get upgrade"
     alias fir="${S}apt-get check"
     alias fic="${S}apt-get autoremove && ${S}apt-get autoclean"
+    alias pkg-all="${S}apt-get update && ${S}apt-get upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
     LOGFILE=/var/log/syslog
 
 elif [[ "$OS" == 'FreeBSD' ]]; then
@@ -119,7 +120,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fiuw="${S}pkg upgrade"
     alias fir="${S}pkg check -Bds"
     alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
-    alias pkg-all="${S}pkg upgrade; ${S}pkg check -Bds; ${S}pkg clean -ay && ${S}pkg autoremove"
+    alias pkg-all="${S}pkg upgrade && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
     alias gstat="${S}gstat -p -f '^[a]?da[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
@@ -135,6 +136,7 @@ elif [[ "$OS" == 'Darwin' ]]; then
     alias fis="${S}port -d selfupdate"
     alias fiuw="${S}port -v upgrade outdated"
     alias fic="${S}port -v uninstall inactive"
+    alias pkg-all="${S}port -d selfupdate && ${S}port -v upgrade outdated && ${S}port -v uninstall inactive"
     LOGFILE=/var/log/system.log
 fi
 
