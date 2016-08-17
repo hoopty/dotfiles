@@ -66,8 +66,7 @@ set_bash_prompt() {
     PS1+="\\$"
     [[ "${TERM::5}" == "xterm" ]] && PS1+="\[\e]0;\u@\h \w\007\]"
 }
-#PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
-PROMPT_COMMAND='set_bash_prompt $?'
+PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
 
 
 # Less Colors for Man Pages
@@ -117,10 +116,10 @@ if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' || "$OS" == 'GNU/kFreeBSD' ]]; th
 
 elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fis="${S}pkg update"
-    alias fiuw="${S}pkg upgrade"
+    alias fiuw="${S}pkg upgrade -y"
     alias fir="${S}pkg check -Bds"
     alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
-    alias pkg-all="${S}pkg upgrade && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
+    alias pkg-all="${S}pkg upgrade -y && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
     alias gstat="${S}gstat -p -f '^[a]?da[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
