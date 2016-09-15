@@ -4,8 +4,7 @@ which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
-shopt -s histappend
-export HISTCONTROL=ignoreboth:erasedups
+export HISTCONTROL=ignoreboth
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
@@ -62,11 +61,13 @@ set_bash_prompt() {
     [[ "${1}" != "0" ]] && PS1+="${C_U_RED}${1}${C_NC} "
     #PS1+="(${C_LIGHT_CYAN}\$(num_files) files, \$(free_space)${C_NC}) "
     PS1+="\w "
+    [[ -z "${PROMPT_SKIP_VENV}" && -n "${VIRTUAL_ENV}" ]] && PS1+="[${C_YELLOW}\$(basename ${VIRTUAL_ENV})${C_NC}] "
     [[ -z "${PROMPT_SKIP_GIT}" && -d .git ]] && PS1+="(${C_LIGHT_CYAN}\$(parse_git_branch)${C_RED}\$(parse_git_dirty)${C_NC}) "
     PS1+="\\$"
     [[ "${TERM::5}" == "xterm" ]] && PS1+="\[\e]0;\u@\h \w\007\]"
 }
-PROMPT_COMMAND='RC=$?; history -a; set_bash_prompt $RC'
+# append & read new history to sync with other shells
+PROMPT_COMMAND='RC=$?; history -a; history -n; set_bash_prompt $RC'
 
 
 # Less Colors for Man Pages
@@ -157,6 +158,12 @@ shopt -s checkwinsize
 shopt -s cdspell
 # match filenames in a case-insensitive fashion when performing pathname expansion
 #shopt -s nocaseglob
+# append to the history file, don't overwrite it
+shopt -s histappend
+# make sure variables are expanded on prompts
+shopt -s promptvars
+# collapse multiline commands to one history entry
+shopt -s cmdhist
 
 
 # do not show hidden files in the list: really useful when working in your home directory
