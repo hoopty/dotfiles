@@ -127,7 +127,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     #function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
     #function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
-    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}${1}; echo; done }
+    function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
 
 elif [[ "$OS" == 'Darwin' ]]; then
@@ -150,6 +150,8 @@ function msglog () { tail $@ ${LOGFILE}; }
 
 [[ $PS1 && -f /usr/local/share/bash-completion/bash_completion.sh ]] && \
     . /usr/local/share/bash-completion/bash_completion.sh
+
+which keychain >/dev/null 2>&1 && eval `keychain --eval id_rsa --ignore-missing -q`
 
 
 # deal with terminal resizing
