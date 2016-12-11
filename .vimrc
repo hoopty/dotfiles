@@ -8,9 +8,10 @@ set ruler
 
 set nocompatible
 set nomodeline
+set paste
 
-"set tabstop=4       "Show 4 spaces when a tabs are displayed
 "set expandtab       "Use softtabstop spaces instead of tab characters for indentation
+"set tabstop=4       "Show 4 spaces when a tabs are displayed
 "set shiftwidth=4    "Indent by 4 spaces when using >>, <<, == etc.
 "set softtabstop=4   "Indent by 4 spaces when pressing <TAB>
 
@@ -22,19 +23,16 @@ set smarttab
 set ignorecase
 set smartcase
 
-set showmatch
-set incsearch
+set showmatch       "Show matching brackets
+set incsearch       "Highlight search string matches as you type
+set hlsearch        "Highlight all search patterns
 set iskeyword-=_    "Treat _ as a word boundary
 
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-" Show trailing whitespace:
-match ExtraWhitespace /\s\+$/
-" Show trailing whitespace, except when typing at the end of a line:
-"match ExtraWhitespace /\s\+\%#\@<!$/
-" Show trailing whitespace and spaces before a tab:
-"match ExtraWhitespace /\s\+$\| \+\ze\t/
-" Show tabs that are not at the start of a line:
-"match ExtraWhitespace /[^\t]\zs\t\+/
+"match ExtraWhitespace /\s\+$/                   " Show trailing whitespace
+"match ExtraWhitespace /\s\+\%#\@<!$/            " Show trailing whitespace, except when typing at the end of a line
+match ExtraWhitespace /\s\+$\| \+\ze\t/         " Show trailing whitespace and spaces before a tab
+"match ExtraWhitespace /[^\t]\zs\t\+/            " Show tabs that are not at the start of a line
 
 highlight OverLength ctermfg=white ctermbg=darkred ctermfg=white guibg=#FFD9D9
 "2match OverLength '\%>79v.\+'
