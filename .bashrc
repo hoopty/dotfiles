@@ -137,6 +137,7 @@ elif [[ "$OS" == 'Darwin' ]]; then
     alias fiuw="${S}port -v upgrade outdated"
     alias fic="${S}port -v uninstall inactive"
     alias pkg-all="${S}port -d selfupdate && ${S}port -v upgrade outdated && ${S}port -v uninstall inactive"
+    unalias whereis
     LOGFILE=/var/log/system.log
 fi
 
