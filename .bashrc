@@ -114,14 +114,13 @@ if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' || "$OS" == 'GNU/kFreeBSD' ]]; th
     alias fic="${S}apt-get autoremove && ${S}apt-get autoclean"
     alias pkg-all="${S}apt-get update && ${S}apt-get upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
     LOGFILE=/var/log/syslog
-
 elif [[ "$OS" == 'FreeBSD' ]]; then
     alias fis="${S}pkg update"
     alias fiuw="${S}pkg upgrade -y"
     alias fir="${S}pkg check -Bds"
     alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
     alias pkg-all="${S}pkg upgrade -y && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
-    alias gstat="${S}gstat -p -f '^[a]?da[0-9]+$'"
+    alias gstat="${S}gstat -p -f '^([a]?da|nvd)[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
     #function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
@@ -129,7 +128,6 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
-
 elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
