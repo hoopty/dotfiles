@@ -9,6 +9,7 @@ set ruler
 set nocompatible
 set nomodeline
 set paste
+set mouse=""
 
 "set expandtab       "Use softtabstop spaces instead of tab characters for indentation
 "set tabstop=4       "Show 4 spaces when a tabs are displayed
