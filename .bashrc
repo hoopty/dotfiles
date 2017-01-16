@@ -4,8 +4,8 @@ which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
-export HISTCONTROL=ignoreboth
 export HISTCONTROL=ignoreboth:erasedups
+export HISTIGNORE="?:??:???:$HISTIGNORE"	# Ignore short (1-3 digit) commands from history
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
