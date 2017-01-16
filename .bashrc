@@ -9,7 +9,7 @@ export HISTIGNORE="?:??:???:$HISTIGNORE"	# Ignore short (1-3 digit) commands fro
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
-alias hdedupe="tail -r $HISTFILE | awk '!x[$0]++' | tail -r > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
+alias hdedupe="tail -r $HISTFILE | awk '!x[\$0]++' | tail -r > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
 #export TERM=xterm-color
 export CLICOLOR=1
