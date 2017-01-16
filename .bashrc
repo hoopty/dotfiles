@@ -5,9 +5,11 @@ which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
 export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
+alias hdedupe="tail -r $HISTFILE | awk '!x[$0]++' | tail -r > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
 #export TERM=xterm-color
 export CLICOLOR=1
