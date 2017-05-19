@@ -94,7 +94,7 @@ fi
 
 
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
-alias duf='sudo du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
+alias duf='${S}du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
 alias h='history'
 alias ha='history -a'
 alias hn='history -n'
