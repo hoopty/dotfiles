@@ -89,12 +89,12 @@ which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch --no-verify-peer -o'
 
 S=
 if [[ "$(id -u)" -ne 0 ]]; then
-    which sudo >/dev/null 2>&1 && S="sudo "
+    which sudo >/dev/null 2>&1 && S="sudo " && alias s='sudo'
 fi
 
 
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
-alias duf='${S}du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(k M G T)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
+alias duf="${S}du -h -d 1 | sort -hr"
 alias h='history'
 alias ha='history -a'
 alias hn='history -n'
@@ -102,7 +102,6 @@ alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
 alias new_dotfiles="for f in ${DOTFILES}; do ${DOTFILES_GET} ~/\$f ${DOTFILES_URL}/\$f; done; . ~/.bash_profile"
-which sudo >/dev/null 2>&1 && alias s='sudo'
 which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
