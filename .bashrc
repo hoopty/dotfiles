@@ -151,7 +151,7 @@ function msglog () { tail $@ ${LOGFILE}; }
 [[ $PS1 && -f /usr/local/share/bash-completion/bash_completion.sh ]] && \
     . /usr/local/share/bash-completion/bash_completion.sh
 
-which keychain >/dev/null 2>&1 && eval `keychain --eval id_rsa --ignore-missing -q`
+which keychain >/dev/null 2>&1 && eval `keychain --eval id_ed25519 id_rsa --ignore-missing -q`
 
 
 # deal with terminal resizing
