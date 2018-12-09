@@ -1,7 +1,7 @@
 [[ -d $HOME/bin ]] && export PATH=$PATH:$HOME/bin
 which vim >/dev/null 2>&1 &&        export EDITOR='vim'
 which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
-which less >/dev/null 2>&1 &&       export MANPAGER='less'
+#which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
 export HISTCONTROL=ignoreboth:erasedups
@@ -130,12 +130,12 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
 elif [[ "$OS" == 'Darwin' ]]; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-    export MANPATH=/opt/local/share/man:$MANPATH
-    alias fis="${S}port -d selfupdate"
-    alias fiuw="${S}port -v upgrade outdated"
-    alias fic="${S}port -v uninstall inactive"
-    alias pkg-all="${S}port -d selfupdate && ${S}port -v upgrade outdated && ${S}port -v uninstall inactive"
+    #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    #export MANPATH=/opt/local/share/man:$MANPATH
+    alias fis="brew update"
+    alias fiuw="brew upgrade"
+    alias fic="brew cleanup"
+    alias pkg-all="brew update && brew upgrade && brew cleanup"
     unalias whereis
     LOGFILE=/var/log/system.log
 fi
