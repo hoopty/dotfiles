@@ -12,8 +12,8 @@ export HISTFILESIZE=10000
 alias hdedupe="tail -r $HISTFILE | awk '!x[\$0]++' | tail -r > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
 #export TERM=xterm-color
-export CLICOLOR=1
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;36'
+#export CLICOLOR=1
+#export GREP_OPTIONS='--color=auto' GREP_COLOR='1;36'
 #export LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rb=90'
 
 export C_NC='\[\e[0m\]' # No Color
