@@ -135,7 +135,7 @@ elif [[ "$OS" == 'Darwin' ]]; then
     alias fis="brew update"
     alias fiuw="brew upgrade"
     alias fic="brew cleanup"
-    alias pkg-all="brew update && brew upgrade && brew cleanup"
+    alias pkg-all='brew update && brew upgrade && brew cask upgrade && brew cleanup'
     unalias whereis
     LOGFILE=/var/log/system.log
 fi
