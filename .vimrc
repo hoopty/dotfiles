@@ -1,5 +1,3 @@
-syntax on
-
 set encoding=utf-8
 
 set bg=dark
@@ -32,14 +30,14 @@ set iskeyword-=_    "Treat _ as a word boundary
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 "match ExtraWhitespace /\s\+$/                   " Show trailing whitespace
 "match ExtraWhitespace /\s\+\%#\@<!$/            " Show trailing whitespace, except when typing at the end of a line
-match ExtraWhitespace /\s\+$\| \+\ze\t/         " Show trailing whitespace and spaces before a tab
+"match ExtraWhitespace /\s\+$\| \+\ze\t/         " Show trailing whitespace and spaces before a tab
 "match ExtraWhitespace /[^\t]\zs\t\+/            " Show tabs that are not at the start of a line
 
 highlight OverLength ctermfg=white ctermbg=darkred ctermfg=white guibg=#FFD9D9
 "2match OverLength '\%>79v.\+'
 
 " vimpager specific
-let vimpager_passthrough = 1
+"let vimpager_passthrough = 1
 
 autocmd BufWritePost *.php silent! !php -l <afile> > /dev/null
 autocmd BufWritePost *.py  silent! !pyflakes <afile> > /dev/null
