@@ -1,4 +1,3 @@
-[[ -d $HOME/bin ]] && export PATH=$PATH:$HOME/bin
 which vim >/dev/null 2>&1 &&        export EDITOR='vim'
 which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 #which less >/dev/null 2>&1 &&       export MANPAGER='less'
@@ -9,7 +8,7 @@ export HISTIGNORE="?:??:???:$HISTIGNORE"	# Ignore short (1-3 digit) commands fro
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
-alias hdedupe="tail -r $HISTFILE | awk '!x[\$0]++' | tail -r > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
+alias hdedupe="tac $HISTFILE | awk '!x[\$0]++' | tac > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
 #export TERM=xterm-color
 #export CLICOLOR=1
@@ -107,7 +106,8 @@ alias whereis='whereis -b'
 function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
-if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' || "$OS" == 'GNU/kFreeBSD' ]]; then
+if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' ]]; then
+    export PATH=/usr/local/sbi:/usr/sbin:/sbin:$PATH
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias fis="${S}apt-get update"
     alias fiuw="${S}apt-get upgrade"
