@@ -124,8 +124,6 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     alias gstat="${S}gstat -p -f '^([a]?da|nvd)[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
-    #function wwwlog () { tail $@ /var/log/httpd-access-$(date '+%Y-%m').log; }
-    #function wwwerrlog () { tail $@ /var/log/httpd-error-$(date '+%Y-%m').log; }
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
@@ -140,8 +138,8 @@ elif [[ "$OS" == 'Darwin' ]]; then
     LOGFILE=/var/log/system.log
 fi
 
-function inlog () { grep $@ ${LOGFILE}; }
-function msglog () { tail $@ ${LOGFILE}; }
+function inlog () { ${S}grep $@ ${LOGFILE}; }
+function msglog () { ${S}tail $@ ${LOGFILE}; }
 
 
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
