@@ -109,17 +109,9 @@ OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
 if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' ]]; then
     export PATH=/usr/local/sbi:/usr/sbin:/sbin:$PATH
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
-    alias fis="${S}apt-get update"
-    alias fiuw="${S}apt-get upgrade"
-    alias fir="${S}apt-get check"
-    alias fic="${S}apt-get autoremove && ${S}apt-get autoclean"
-    alias pkg-all="${S}apt-get update && ${S}apt-get upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
+    alias pkg-all="${S}apt-get update && ${S}apt-get dist-upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
     LOGFILE=/var/log/syslog
 elif [[ "$OS" == 'FreeBSD' ]]; then
-    alias fis="${S}pkg update"
-    alias fiuw="${S}pkg upgrade -y"
-    alias fir="${S}pkg check -Bds"
-    alias fic="${S}pkg clean -ay && ${S}pkg autoremove"
     alias pkg-all="${S}pkg upgrade -y && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
     alias gstat="${S}gstat -p -f '^([a]?da|nvd)[0-9]+$'"
     alias iotop='top -m io -o total'
@@ -130,9 +122,6 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
 elif [[ "$OS" == 'Darwin' ]]; then
     #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     #export MANPATH=/opt/local/share/man:$MANPATH
-    alias fis="brew update"
-    alias fiuw="brew upgrade"
-    alias fic="brew cleanup"
     alias pkg-all='brew update && brew upgrade && brew cleanup'
     unalias whereis
     LOGFILE=/var/log/system.log
