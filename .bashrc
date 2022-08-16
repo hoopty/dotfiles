@@ -1,3 +1,6 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 which vim >/dev/null 2>&1 &&        export EDITOR='vim'
 which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 #which less >/dev/null 2>&1 &&       export MANPAGER='less'
