@@ -110,7 +110,7 @@ function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
 if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' ]]; then
-    export PATH=/usr/local/sbi:/usr/sbin:/sbin:$PATH
+    export PATH=/usr/local/sbin:/usr/sbin:/sbin:$PATH
     alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias pkg-all="${S}apt-get update && ${S}apt-get dist-upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
     LOGFILE=/var/log/syslog
@@ -123,7 +123,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
 elif [[ "$OS" == 'Darwin' ]]; then
-    #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=/usr/local/sbin:/usr/local/bin:$PATH
     #export MANPATH=/opt/local/share/man:$MANPATH
     alias pkg-all='brew update && brew upgrade && brew cleanup'
     unalias whereis
