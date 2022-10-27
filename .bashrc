@@ -125,7 +125,7 @@ elif [[ "$OS" == 'FreeBSD' ]]; then
 elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/usr/local/sbin:/usr/local/bin:$PATH
     #export MANPATH=/opt/local/share/man:$MANPATH
-    alias pkg-all='brew update && brew upgrade && brew cleanup'
+    alias pkg-all='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
     unalias whereis
     LOGFILE=/var/log/system.log
 fi
