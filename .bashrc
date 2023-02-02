@@ -99,6 +99,7 @@ which colordiff >/dev/null 2>&1 && alias diff='colordiff'
 which vim >/dev/null 2>&1 && alias vi='vim'
 
 alias duf="${S}du -h -d 1 | sort -hr"
+alias dufx="${S}du -x -h -d 1 | sort -hr"
 alias h='history'
 alias ha='history -a'
 alias hn='history -n'
