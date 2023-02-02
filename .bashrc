@@ -111,7 +111,7 @@ alias whereis='whereis -b'
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
 if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' ]]; then
     export PATH=/usr/local/sbin:/usr/sbin:/sbin:$PATH
-    #alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
+    alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias pkg-all="${S}apt-get update && ${S}apt-get dist-upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
 
     LOGFILE=/var/log/syslog
@@ -119,7 +119,7 @@ elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/usr/local/sbin:/usr/local/bin:$PATH
     #export MANPATH=/opt/local/share/man:$MANPATH
 
-    which gls >/dev/null 2>&1 && alias ls='gls'
+    which gls >/dev/null 2>&1 && alias ll='gls -alhF --group-directories-first --color=auto'
 
     alias pkg-all='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
 
