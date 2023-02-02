@@ -96,6 +96,8 @@ fi
 
 
 which colordiff >/dev/null 2>&1 && alias diff='colordiff'
+which vim >/dev/null 2>&1 && alias vi='vim'
+
 alias duf="${S}du -h -d 1 | sort -hr"
 alias h='history'
 alias ha='history -a'
@@ -104,32 +106,37 @@ alias l='less -gimS'
 alias ll='ls -aFGhl'
 alias m='more -i'
 alias new_dotfiles="for f in ${DOTFILES}; do ${DOTFILES_GET} ~/\$f ${DOTFILES_URL}/\$f; done; . ~/.bash_profile"
-which vim >/dev/null 2>&1 && alias vi='vim'
 alias whereis='whereis -b'
-function ffind () { find / -name $@ -ls; }
 
 OS=$(uname -o 2>/dev/null || uname 2>/dev/null)
 if [[ "$OS" == 'Linux' || "$OS" == 'GNU/Linux' ]]; then
     export PATH=/usr/local/sbin:/usr/sbin:/sbin:$PATH
-    alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
+    #alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color=auto'
     alias pkg-all="${S}apt-get update && ${S}apt-get dist-upgrade && ${S}apt-get check && ${S}apt-get autoremove && ${S}apt-get autoclean"
+
     LOGFILE=/var/log/syslog
+elif [[ "$OS" == 'Darwin' ]]; then
+    export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+    #export MANPATH=/opt/local/share/man:$MANPATH
+
+    alias pkg-all='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
+    unalias whereis
+
+    LOGFILE=/var/log/system.log
 elif [[ "$OS" == 'FreeBSD' ]]; then
+    which gls >/dev/null 2>&1 && alias ls='gls'
+
     alias pkg-all="${S}pkg upgrade -y && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
     alias gstat="${S}gstat -p -f '^([a]?da|nvd)[0-9]+$'"
     alias iotop='top -m io -o total'
     alias systat='systat -vm 1'
+
     function je () { for j in $(jls name); do echo "${j}:"; ${S}jexec ${j} $@; echo; done }
     function jc () { for j in $(jls name); do echo "${j}:"; ${S}cp -pv ${1} /jail/${j}/${1}; echo; done }
     LOGFILE=/var/log/messages
-elif [[ "$OS" == 'Darwin' ]]; then
-    export PATH=/usr/local/sbin:/usr/local/bin:$PATH
-    #export MANPATH=/opt/local/share/man:$MANPATH
-    alias pkg-all='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
-    unalias whereis
-    LOGFILE=/var/log/system.log
 fi
 
+function ffind () { find / -name $@ -ls; }
 function inlog () { ${S}grep $@ ${LOGFILE}; }
 function msglog () { ${S}tail $@ ${LOGFILE}; }
 
