@@ -119,13 +119,12 @@ elif [[ "$OS" == 'Darwin' ]]; then
     export PATH=/usr/local/sbin:/usr/local/bin:$PATH
     #export MANPATH=/opt/local/share/man:$MANPATH
 
+    which gls >/dev/null 2>&1 && alias ls='gls'
+
     alias pkg-all='brew update && brew upgrade && brew upgrade --cask && brew cleanup'
-    unalias whereis
 
     LOGFILE=/var/log/system.log
 elif [[ "$OS" == 'FreeBSD' ]]; then
-    which gls >/dev/null 2>&1 && alias ls='gls'
-
     alias pkg-all="${S}pkg upgrade -y && ${S}pkg check -Bds && ${S}pkg clean -ay && ${S}pkg autoremove"
     alias gstat="${S}gstat -p -f '^([a]?da|nvd)[0-9]+$'"
     alias iotop='top -m io -o total'
