@@ -83,11 +83,11 @@ export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
-DOTFILES='.bashrc .bash_profile .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
+DOTFILES='.bashrc .vimrc .gitconfig .tmux.conf .config/htop/htoprc'
 DOTFILES_URL='https://raw.githubusercontent.com/hoopty/dotfiles/master'
+which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch --no-verify-peer -o'
 which wget >/dev/null 2>&1  && DOTFILES_GET='wget -nv -O'
 which curl >/dev/null 2>&1  && DOTFILES_GET='curl -s -o'
-which fetch >/dev/null 2>&1 && DOTFILES_GET='fetch --no-verify-peer -o'
 
 S=
 if [[ "$(id -u)" -ne 0 ]]; then
