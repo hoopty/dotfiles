@@ -6,10 +6,10 @@ which vimpager >/dev/null 2>&1 &&   export PAGER='vimpager'
 #which less >/dev/null 2>&1 &&       export MANPAGER='less'
 #export MANPAGER="col -b | vim -R -c 'set ft=man nomod nolist' -"
 
-export HISTCONTROL=ignoreboth:erasedups
-export HISTIGNORE="?:??:???:$HISTIGNORE"	# Ignore short (1-3 digit) commands from history
-export HISTSIZE=10000
-export HISTFILESIZE=10000
+export HISTCONTROL=ignoreboth               # Same as ignorespace:ignoredups
+#export HISTIGNORE="?:??:???:$HISTIGNORE"   # Ignore short (1-3 digit) commands from history
+#export HISTSIZE=10000
+#export HISTFILESIZE=10000
 #export HISTTIMEFORMAT="%b/%d %T "
 alias hdedupe="tac $HISTFILE | awk '!x[\$0]++' | tac > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
@@ -71,7 +71,7 @@ set_bash_prompt() {
     [[ "${TERM::5}" == "xterm" ]] && PS1+="\[\e]0;\u@\h \w\007\]"
 }
 # append & read new history to sync with other shells
-PROMPT_COMMAND='RC=$?; history -a; history -n; set_bash_prompt $RC'
+#PROMPT_COMMAND='RC=$?; history -a; history -n; set_bash_prompt $RC'
 
 
 # Less Colors for Man Pages
