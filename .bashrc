@@ -71,7 +71,7 @@ set_bash_prompt() {
     [[ "${TERM::5}" == "xterm" ]] && PS1+="\[\e]0;\u@\h \w\007\]"
 }
 # append & read new history to sync with other shells
-#PROMPT_COMMAND='RC=$?; history -a; history -n; set_bash_prompt $RC'
+PROMPT_COMMAND='RC=$?; history -a; history -n; set_bash_prompt $RC'
 
 
 # Less Colors for Man Pages
