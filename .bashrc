@@ -14,8 +14,9 @@ HISTFILESIZE=100000
 shopt -s histappend               # append to history, don't overwrite it
 alias hdedupe="tac $HISTFILE | awk '!x[\$0]++' | tac > ~/.tmp.newhist && mv ~/.tmp.newhist $HISTFILE"
 
+export CLICOLOR=1
+export COLORTERM=1
 #export TERM=xterm-color
-#export CLICOLOR=1
 #export GREP_OPTIONS='--color=auto' GREP_COLOR='1;36'
 #export LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rb=90'
 
